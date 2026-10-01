@@ -37,7 +37,18 @@ and generates an estimated average salary using a trained **Random Forest Regres
 
 ## 📸 Application Preview
 
-![SalaryIQ Dashboard](screenshots/salaryiq-dashboard.png)
+
+### 🖥️ SalaryIQ Dashboard
+
+![SalaryIQ Dashboard](Screenshot%202026-10-02%20020616.png)
+
+### 📊 Salary Prediction
+
+![Salary Prediction](Screenshot%202026-10-02%20020639.png)
+
+### 🎯 Prediction Result
+
+![Prediction Result](Screenshot%202026-10-02%20020730.png)
 
 ---
 
