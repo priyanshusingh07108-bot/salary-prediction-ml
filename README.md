@@ -35,6 +35,12 @@ and generates an estimated average salary using a trained **Random Forest Regres
 
 ---
 
+## 📸 Application Preview
+
+![SalaryIQ Dashboard](salaryiq-dashboard.png)
+
+---
+
 ## 🎯 Problem Statement
 
 Salary varies significantly depending on job role, company characteristics, location, experience-related factors, and technical requirements.
