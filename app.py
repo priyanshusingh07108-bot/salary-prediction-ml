@@ -138,10 +138,11 @@ st.markdown("""
     font-size: 15px;
     font-weight: 750;
     margin-bottom: 12px;
+    color: #e2e8f0;
 }
 
 .sidebar-item {
-    color: #cbd5e1;
+    color: #dbeafe;
     padding: 7px 0;
     font-size: 13px;
 }
@@ -366,6 +367,8 @@ label {
 ========================= */
 
 .stButton > button {
+    letter-spacing: 0.2px;
+    cursor: pointer;
 
     width: 100%;
 
@@ -397,7 +400,7 @@ label {
 
 .stButton > button:hover {
 
-    transform: translateY(-2px);
+    transform: translateY(-2px)  scale(1.01);
 
     box-shadow:
         0 18px 45px rgba(79,70,229,0.52);
@@ -1011,10 +1014,10 @@ with main_col:
                 ${prediction:.2f}K
             </div>
 
-            <div class="prediction-note">
-                Estimated annual salary based on the
-                information provided.
-            </div>
+           <div class="prediction-note">
+    AI-generated estimate based on job, company and skill attributes.
+    Use this result as a reference, not a guaranteed salary quote.
+</div>
 
         </div>
         """)
@@ -1075,10 +1078,7 @@ with main_col:
             </div>
             """)
 
-        st.success(
-            "🎉 Prediction generated successfully!"
-        )
-
+       
 
 # =========================================================
 # RIGHT PANEL
