@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import textwrap
 
 # =========================================================
 # PAGE CONFIG
 # =========================================================
+
 st.set_page_config(
     page_title="SalaryIQ | AI Salary Predictor",
     page_icon="💼",
@@ -12,48 +14,93 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+
+# =========================================================
+# HTML HELPER
+# =========================================================
+
+def html(content):
+    st.markdown(
+        textwrap.dedent(content),
+        unsafe_allow_html=True
+    )
+
+
 # =========================================================
 # CUSTOM CSS
 # =========================================================
+
 st.markdown("""
 <style>
 
-/* ================= GLOBAL ================= */
+/* =========================
+   MAIN BACKGROUND
+========================= */
 
 .stApp {
     background:
-        radial-gradient(circle at 5% 5%, rgba(37,99,235,0.18), transparent 25%),
-        radial-gradient(circle at 95% 10%, rgba(124,58,237,0.18), transparent 25%),
-        linear-gradient(135deg, #020617 0%, #071426 50%, #0b1025 100%);
+        radial-gradient(
+            circle at 5% 5%,
+            rgba(37, 99, 235, 0.20),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 95% 5%,
+            rgba(124, 58, 237, 0.20),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #020617 0%,
+            #071426 50%,
+            #0b1025 100%
+        );
+
     color: #f8fafc;
 }
 
 .block-container {
     max-width: 1450px;
-    padding: 1.4rem 1.5rem 3rem 1.5rem;
+    padding: 1.2rem 1.4rem 3rem 1.4rem;
 }
 
-/* ================= SIDEBAR ================= */
+
+/* =========================
+   SIDEBAR
+========================= */
 
 [data-testid="stSidebar"] {
     background:
-        linear-gradient(180deg, #020617 0%, #06142b 60%, #081b35 100%);
+        linear-gradient(
+            180deg,
+            #020617 0%,
+            #06142b 60%,
+            #081b35 100%
+        );
+
     border-right: 1px solid rgba(96,165,250,0.18);
 }
 
-.sidebar-logo {
+.sidebar-brand {
     text-align: center;
-    padding: 15px 5px 25px 5px;
+    padding: 10px 5px 25px 5px;
 }
 
-.sidebar-logo-icon {
+.sidebar-logo {
     font-size: 42px;
 }
 
-.sidebar-logo-title {
+.sidebar-name {
     font-size: 25px;
     font-weight: 800;
-    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+
+    background:
+        linear-gradient(
+            90deg,
+            #60a5fa,
+            #a78bfa
+        );
+
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -64,124 +111,174 @@ st.markdown("""
 }
 
 .sidebar-card {
-    margin-top: 25px;
     padding: 18px;
     border-radius: 18px;
-    background: rgba(15,23,42,0.72);
+
+    background: rgba(15,23,42,0.70);
+
     border: 1px solid rgba(96,165,250,0.15);
+
+    margin-top: 18px;
 }
 
 .sidebar-card-title {
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 750;
     margin-bottom: 12px;
 }
 
 .sidebar-item {
     color: #cbd5e1;
     padding: 7px 0;
-    font-size: 14px;
+    font-size: 13px;
 }
 
-/* ================= HERO ================= */
+
+/* =========================
+   HERO
+========================= */
 
 .hero {
-    position: relative;
-    overflow: hidden;
-    padding: 34px 38px;
-    border-radius: 25px;
+    padding: 35px 38px;
+
+    min-height: 250px;
+
+    border-radius: 26px;
 
     background:
-        radial-gradient(circle at 75% 35%, rgba(59,130,246,0.28), transparent 22%),
-        radial-gradient(circle at 90% 80%, rgba(124,58,237,0.30), transparent 25%),
-        linear-gradient(135deg, #102c62, #25205d);
+        radial-gradient(
+            circle at 75% 30%,
+            rgba(59,130,246,0.30),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(124,58,237,0.30),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #102c62,
+            #25205d
+        );
 
-    border: 1px solid rgba(96,165,250,0.28);
+    border: 1px solid rgba(96,165,250,0.30);
 
     box-shadow:
-        0 25px 70px rgba(0,0,0,0.30);
+        0 25px 70px rgba(0,0,0,0.35);
 
-    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-badge {
     display: inline-block;
+
     padding: 7px 14px;
+
     border-radius: 999px;
 
+    background: rgba(59,130,246,0.15);
+
+    border: 1px solid rgba(96,165,250,0.35);
+
     color: #93c5fd;
-    background: rgba(37,99,235,0.16);
-    border: 1px solid rgba(96,165,250,0.30);
 
     font-size: 12px;
+
     font-weight: 700;
 }
 
 .hero-title {
-    font-size: 58px;
+    font-size: 56px;
+
     line-height: 1;
+
     font-weight: 850;
+
     margin-top: 15px;
 
-    background: linear-gradient(
-        90deg,
-        #ffffff,
-        #93c5fd,
-        #c4b5fd
-    );
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #93c5fd,
+            #c4b5fd
+        );
 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .hero-tagline {
-    font-size: 23px;
+    font-size: 22px;
+
     font-weight: 700;
+
     color: #60a5fa;
+
     margin-top: 10px;
 }
 
 .hero-description {
     color: #cbd5e1;
-    max-width: 760px;
-    font-size: 15px;
+
+    max-width: 720px;
+
+    font-size: 14px;
+
     line-height: 1.7;
+
     margin-top: 8px;
 }
 
-/* ================= SECTION ================= */
 
-.section {
-    padding: 22px;
+/* =========================
+   SECTION CARD
+========================= */
+
+.section-card {
+    padding: 21px;
+
     border-radius: 20px;
 
-    background: rgba(8,20,40,0.80);
+    background:
+        rgba(8,20,40,0.82);
 
     border: 1px solid rgba(148,163,184,0.14);
 
     box-shadow:
-        0 15px 40px rgba(0,0,0,0.16);
+        0 15px 40px rgba(0,0,0,0.18);
 
     margin-bottom: 18px;
 }
 
 .section-title {
     font-size: 20px;
+
     font-weight: 750;
 }
 
 .section-subtitle {
     color: #64748b;
+
     font-size: 12px;
-    margin-top: 3px;
+
+    margin-top: 4px;
+
     margin-bottom: 18px;
 }
 
-/* ================= INPUTS ================= */
+
+/* =========================
+   INPUTS
+========================= */
 
 .stTextInput input,
 .stNumberInput input {
 
     background: #0b1629 !important;
+
     color: #f8fafc !important;
 
     border: 1px solid #263b5a !important;
@@ -193,6 +290,9 @@ st.markdown("""
 .stNumberInput input:focus {
 
     border-color: #6366f1 !important;
+
+    box-shadow:
+        0 0 0 1px #6366f1 !important;
 }
 
 .stSelectbox div[data-baseweb="select"] > div {
@@ -202,20 +302,22 @@ st.markdown("""
     border: 1px solid #263b5a !important;
 
     border-radius: 11px !important;
-
-    color: #f8fafc !important;
 }
 
 label {
     color: #cbd5e1 !important;
+
     font-size: 13px !important;
 }
 
-/* ================= SKILL CARDS ================= */
+
+/* =========================
+   SKILL CARDS
+========================= */
 
 .skill-card {
 
-    padding: 15px;
+    padding: 13px;
 
     border-radius: 16px;
 
@@ -230,27 +332,34 @@ label {
 
     text-align: center;
 
-    min-height: 115px;
+    min-height: 85px;
 }
 
 .skill-icon {
-    font-size: 25px;
+    font-size: 24px;
 }
 
 .skill-name {
-    font-size: 14px;
+    font-size: 13px;
+
     font-weight: 700;
-    margin-top: 4px;
+
+    margin-top: 3px;
 }
 
-/* ================= BUTTON ================= */
+
+/* =========================
+   PREDICT BUTTON
+========================= */
 
 .stButton > button {
 
     width: 100%;
-    height: 55px;
+
+    height: 57px;
 
     border: none;
+
     border-radius: 14px;
 
     background:
@@ -264,10 +373,11 @@ label {
     color: white;
 
     font-size: 17px;
+
     font-weight: 800;
 
     box-shadow:
-        0 12px 35px rgba(79,70,229,0.35);
+        0 12px 35px rgba(79,70,229,0.38);
 
     transition: 0.2s;
 }
@@ -277,22 +387,25 @@ label {
     transform: translateY(-2px);
 
     box-shadow:
-        0 18px 45px rgba(79,70,229,0.50);
+        0 18px 45px rgba(79,70,229,0.52);
 }
 
-/* ================= RIGHT CARDS ================= */
+
+/* =========================
+   RIGHT INFO CARDS
+========================= */
 
 .info-card {
 
-    padding: 20px;
+    padding: 19px;
 
     border-radius: 19px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(25,25,70,0.80),
-            rgba(10,20,45,0.85)
+            rgba(25,25,70,0.82),
+            rgba(10,20,45,0.90)
         );
 
     border: 1px solid rgba(124,58,237,0.25);
@@ -303,6 +416,7 @@ label {
 .info-title {
 
     font-size: 18px;
+
     font-weight: 750;
 
     margin-bottom: 14px;
@@ -310,20 +424,19 @@ label {
 
 .info-row {
 
-    display: flex;
-
-    gap: 10px;
-
-    margin: 13px 0;
-
     color: #cbd5e1;
 
     font-size: 13px;
 
-    line-height: 1.5;
+    line-height: 1.55;
+
+    margin: 12px 0;
 }
 
-/* ================= PREDICTION ================= */
+
+/* =========================
+   RESULT
+========================= */
 
 .prediction-card {
 
@@ -334,21 +447,19 @@ label {
     background:
         radial-gradient(
             circle at 15% 50%,
-            rgba(16,185,129,0.20),
+            rgba(16,185,129,0.22),
             transparent 35%
         ),
         linear-gradient(
             135deg,
-            rgba(5,70,65,0.80),
-            rgba(8,35,55,0.90)
+            rgba(5,70,65,0.82),
+            rgba(8,35,55,0.92)
         );
 
-    border: 1px solid rgba(52,211,153,0.30);
+    border: 1px solid rgba(52,211,153,0.32);
 
     box-shadow:
-        0 20px 55px rgba(0,0,0,0.25);
-
-    margin-top: 20px;
+        0 20px 55px rgba(0,0,0,0.28);
 }
 
 .prediction-label {
@@ -362,7 +473,7 @@ label {
 
 .prediction-value {
 
-    font-size: 48px;
+    font-size: 50px;
 
     font-weight: 850;
 
@@ -371,14 +482,17 @@ label {
     margin: 3px 0;
 }
 
-.prediction-description {
+.prediction-note {
 
     color: #94a3b8;
 
     font-size: 12px;
 }
 
-/* ================= METRICS ================= */
+
+/* =========================
+   METRIC CARDS
+========================= */
 
 .metric-card {
 
@@ -386,7 +500,8 @@ label {
 
     border-radius: 16px;
 
-    background: rgba(10,25,45,0.90);
+    background:
+        rgba(10,25,45,0.90);
 
     border: 1px solid rgba(96,165,250,0.18);
 
@@ -413,7 +528,10 @@ label {
     margin-top: 4px;
 }
 
-/* ================= FOOTER ================= */
+
+/* =========================
+   FOOTER
+========================= */
 
 .footer {
 
@@ -424,7 +542,6 @@ label {
     font-size: 11px;
 
     margin-top: 35px;
-
 }
 
 </style>
@@ -449,12 +566,12 @@ model = load_model()
 
 with st.sidebar:
 
-    st.markdown("""
-    <div class="sidebar-logo">
+    html("""
+    <div class="sidebar-brand">
 
-        <div class="sidebar-logo-icon">📊</div>
+        <div class="sidebar-logo">📊</div>
 
-        <div class="sidebar-logo-title">
+        <div class="sidebar-name">
             SalaryIQ
         </div>
 
@@ -463,9 +580,9 @@ with st.sidebar:
         </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
-    st.markdown("""
+    html("""
     <div class="sidebar-card">
 
         <div class="sidebar-card-title">
@@ -489,27 +606,42 @@ with st.sidebar:
         </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
-    st.markdown("""
+    html("""
     <div class="sidebar-card">
 
         <div class="sidebar-card-title">
             ⚙️ Powered By
         </div>
 
-        <div class="sidebar-item">🐍 Python</div>
-        <div class="sidebar-item">🧠 Scikit-learn</div>
-        <div class="sidebar-item">🌲 Random Forest</div>
-        <div class="sidebar-item">🚀 Streamlit</div>
+        <div class="sidebar-item">
+            🐍 Python
+        </div>
+
+        <div class="sidebar-item">
+            🐼 Pandas
+        </div>
+
+        <div class="sidebar-item">
+            🧠 Scikit-learn
+        </div>
+
+        <div class="sidebar-item">
+            🌲 Random Forest
+        </div>
+
+        <div class="sidebar-item">
+            🚀 Streamlit
+        </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
-    st.markdown("""
+    html("""
     <div style="
         margin-top:35px;
-        padding:15px;
+        padding:12px;
         color:#64748b;
         font-size:12px;
         text-align:center;
@@ -518,28 +650,28 @@ with st.sidebar:
         Smarter predictions.<br>
         Better decisions.
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 
 # =========================================================
-# MAIN LAYOUT
+# MAIN + RIGHT COLUMN
 # =========================================================
 
 main_col, right_col = st.columns(
-    [3.7, 1.25],
+    [3.55, 1.25],
     gap="large"
 )
 
 
 # =========================================================
-# MAIN COLUMN
+# MAIN
 # =========================================================
 
 with main_col:
 
-    # ---------------- HERO ----------------
+    # HERO
 
-    st.markdown("""
+    html("""
     <div class="hero">
 
         <div class="hero-badge">
@@ -561,15 +693,15 @@ with main_col:
         </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 
     # =====================================================
     # JOB INFORMATION
     # =====================================================
 
-    st.markdown("""
-    <div class="section">
+    html("""
+    <div class="section-card">
 
         <div class="section-title">
             💼 Job Information
@@ -580,11 +712,11 @@ with main_col:
         </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
-    c1, c2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-    with c1:
+    with col1:
 
         job_title = st.text_input(
             "Job Title",
@@ -606,7 +738,7 @@ with main_col:
             "Biotech & Pharmaceuticals"
         )
 
-    with c2:
+    with col2:
 
         size = st.selectbox(
             "Company Size",
@@ -649,8 +781,8 @@ with main_col:
     # COMPANY DETAILS
     # =====================================================
 
-    st.markdown("""
-    <div class="section">
+    html("""
+    <div class="section-card">
 
         <div class="section-title">
             🏢 Company Details
@@ -661,11 +793,11 @@ with main_col:
         </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
-    c1, c2 = st.columns(2)
+    company1, company2 = st.columns(2)
 
-    with c1:
+    with company1:
 
         age = st.number_input(
             "Company Age (years)",
@@ -674,7 +806,7 @@ with main_col:
             value=20
         )
 
-    with c2:
+    with company2:
 
         employer_provided = st.selectbox(
             "Employer Provided Salary?",
@@ -688,8 +820,8 @@ with main_col:
     # SKILLS
     # =====================================================
 
-    st.markdown("""
-    <div class="section">
+    html("""
+    <div class="section-card">
 
         <div class="section-title">
             🧠 Technical Skills
@@ -700,20 +832,23 @@ with main_col:
         </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
     s1, s2, s3, s4, s5 = st.columns(5)
 
     with s1:
 
-        st.markdown("""
+        html("""
         <div class="skill-card">
 
             <div class="skill-icon">🐍</div>
-            <div class="skill-name">Python</div>
+
+            <div class="skill-name">
+                Python
+            </div>
 
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
         python_yn = st.selectbox(
             "Python",
@@ -725,14 +860,17 @@ with main_col:
 
     with s2:
 
-        st.markdown("""
+        html("""
         <div class="skill-card">
 
             <div class="skill-icon">📊</div>
-            <div class="skill-name">R</div>
+
+            <div class="skill-name">
+                R
+            </div>
 
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
         r_yn = st.selectbox(
             "R",
@@ -744,14 +882,17 @@ with main_col:
 
     with s3:
 
-        st.markdown("""
+        html("""
         <div class="skill-card">
 
             <div class="skill-icon">⚡</div>
-            <div class="skill-name">Spark</div>
+
+            <div class="skill-name">
+                Spark
+            </div>
 
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
         spark = st.selectbox(
             "Spark",
@@ -763,14 +904,17 @@ with main_col:
 
     with s4:
 
-        st.markdown("""
+        html("""
         <div class="skill-card">
 
             <div class="skill-icon">☁️</div>
-            <div class="skill-name">AWS</div>
+
+            <div class="skill-name">
+                AWS
+            </div>
 
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
         aws = st.selectbox(
             "AWS",
@@ -782,14 +926,17 @@ with main_col:
 
     with s5:
 
-        st.markdown("""
+        html("""
         <div class="skill-card">
 
             <div class="skill-icon">📗</div>
-            <div class="skill-name">Excel</div>
+
+            <div class="skill-name">
+                Excel
+            </div>
 
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
         excel = st.selectbox(
             "Excel",
@@ -838,98 +985,82 @@ with main_col:
         monthly = prediction * 1000 / 12
 
 
-        # =================================================
         # RESULT
-        # =================================================
 
-        st.markdown(
-            f"""
-            <div class="prediction-card">
+        html(f"""
+        <div class="prediction-card">
 
-                <div class="prediction-label">
-                    💰 AI ESTIMATED AVERAGE SALARY
-                </div>
-
-                <div class="prediction-value">
-                    ${prediction:.2f}K
-                </div>
-
-                <div class="prediction-description">
-                    Estimated annual salary based on the
-                    information provided.
-                </div>
-
+            <div class="prediction-label">
+                💰 AI ESTIMATED AVERAGE SALARY
             </div>
-            """,
-            unsafe_allow_html=True
-        )
+
+            <div class="prediction-value">
+                ${prediction:.2f}K
+            </div>
+
+            <div class="prediction-note">
+                Estimated annual salary based on the
+                information provided.
+            </div>
+
+        </div>
+        """)
 
 
         st.markdown("<br>", unsafe_allow_html=True)
 
 
-        # =================================================
         # METRICS
-        # =================================================
 
         m1, m2, m3 = st.columns(3)
 
         with m1:
 
-            st.markdown(
-                f"""
-                <div class="metric-card">
+            html(f"""
+            <div class="metric-card">
 
-                    <div class="metric-title">
-                        ANNUAL ESTIMATE
-                    </div>
-
-                    <div class="metric-value">
-                        ${prediction:.2f}K
-                    </div>
-
+                <div class="metric-title">
+                    ANNUAL ESTIMATE
                 </div>
-                """,
-                unsafe_allow_html=True
-            )
+
+                <div class="metric-value">
+                    ${prediction:.2f}K
+                </div>
+
+            </div>
+            """)
 
         with m2:
 
-            st.markdown(
-                f"""
-                <div class="metric-card">
+            html(f"""
+            <div class="metric-card">
 
-                    <div class="metric-title">
-                        MONTHLY ESTIMATE
-                    </div>
-
-                    <div class="metric-value">
-                        ${monthly:,.2f}
-                    </div>
-
+                <div class="metric-title">
+                    MONTHLY ESTIMATE
                 </div>
-                """,
-                unsafe_allow_html=True
-            )
+
+                <div class="metric-value">
+                    ${monthly:,.2f}
+                </div>
+
+            </div>
+            """)
 
         with m3:
 
-            st.markdown(
-                """
-                <div class="metric-card">
+            html("""
+            <div class="metric-card">
 
-                    <div class="metric-title">
-                        MODEL USED
-                    </div>
-
-                    <div class="metric-value">
-                        Random Forest
-                    </div>
-
+                <div class="metric-title">
+                    MODEL USED
                 </div>
-                """,
-                unsafe_allow_html=True
-            )
+
+                <div class="metric-value">
+                    Random Forest
+                </div>
+
+            </div>
+            """)
 
         st.success(
             "🎉 Prediction generated successfully!"
@@ -937,12 +1068,12 @@ with main_col:
 
 
 # =========================================================
-# RIGHT SIDE PANEL
+# RIGHT PANEL
 # =========================================================
 
 with right_col:
 
-    st.markdown("""
+    html("""
     <div class="info-card">
 
         <div class="info-title">
@@ -966,12 +1097,10 @@ with right_col:
         </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 
-    # ---------------- MODEL ----------------
-
-    st.markdown("""
+    html("""
     <div class="info-card">
 
         <div class="info-title">
@@ -987,7 +1116,7 @@ with right_col:
         </div>
 
         <div class="info-row">
-            🧹 Median/mode imputation
+            🧹 Missing-value imputation
         </div>
 
         <div class="info-row">
@@ -995,12 +1124,10 @@ with right_col:
         </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 
-    # ---------------- PROJECT ----------------
-
-    st.markdown("""
+    html("""
     <div class="info-card">
 
         <div class="info-title">
@@ -1020,45 +1147,50 @@ with right_col:
         </div>
 
         <div class="info-row">
+            🌲 Random Forest
+        </div>
+
+        <div class="info-row">
             🚀 Streamlit
         </div>
 
-        <div class="info-row">
-            🐙 GitHub
-        </div>
-
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 
-    # ---------------- NOTE ----------------
-
-    st.markdown("""
+    html("""
     <div class="info-card">
 
         <div class="info-title">
-            ℹ️ Note
+            ℹ️ About Prediction
         </div>
 
         <div class="info-row">
-            Salary predictions are estimates generated
-            by a machine-learning model and should be
-            used as a reference rather than an exact salary quote.
+            This prediction is generated by a
+            machine-learning model trained on
+            job-market data.
+        </div>
+
+        <div class="info-row">
+            Use the estimate as a reference,
+            not as a guaranteed salary quote.
         </div>
 
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 
 # =========================================================
 # FOOTER
 # =========================================================
 
-st.markdown("""
+html("""
 <div class="footer">
 
-SalaryIQ • AI Salary Prediction Platform<br>
-Built with Python • Pandas • Scikit-learn • Random Forest • Streamlit
+    SalaryIQ • AI Salary Prediction Platform<br>
+
+    Built with Python • Pandas • Scikit-learn •
+    Random Forest • Streamlit
 
 </div>
-""", unsafe_allow_html=True)
+""")
