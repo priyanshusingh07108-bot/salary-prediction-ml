@@ -71,3 +71,27 @@ Model Evaluation
 Final Model
      ↓
 Streamlit Deployment
+
+---
+
+## 📊 Model Performance
+
+The final Random Forest Regression model was evaluated on a held-out test dataset.
+
+| Metric | Score |
+|---|---:|
+| MAE | $23.12K |
+| RMSE | $29.65K |
+| R² Score | 0.173 |
+
+### Final Model
+
+**Random Forest Regressor**
+
+- Number of Trees: `300`
+- Maximum Depth: `5`
+- Minimum Samples Split: `5`
+- Minimum Samples Leaf: `2`
+- Random State: `42`
+
+The model achieved an R² score of approximately **0.17** on the test dataset.
