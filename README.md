@@ -71,6 +71,7 @@ Model Evaluation
 Final Model
      ↓
 Streamlit Deployment
+```
 
 ---
 
@@ -95,7 +96,6 @@ The final Random Forest Regression model was evaluated on a held-out test datase
 - Random State: `42`
 
 The model achieved an R² score of approximately **0.17** on the test dataset.
-
 
 ---
 
@@ -145,7 +145,17 @@ salary-prediction-ml/
 ├── requirements.txt
 ├── runtime.txt
 └── README.md
+```
 
+### File Description
+
+| File | Description |
+|---|---|
+| `app.py` | Streamlit web application |
+| `salary_prediction_model.pkl` | Trained Random Forest ML pipeline |
+| `requirements.txt` | Python dependencies |
+| `runtime.txt` | Python runtime version |
+| `README.md` | Project documentation |
 
 ---
 
@@ -162,7 +172,6 @@ salary-prediction-ml/
 - ⚡ Real-time salary prediction
 - ☁️ Deployed using Streamlit Community Cloud
 
-
 ---
 
 ## 🚀 Future Improvements
@@ -175,7 +184,6 @@ salary-prediction-ml/
 - Add interactive data visualizations
 - Improve UI/UX of the Streamlit application
 - Add model explainability using SHAP
-
 
 ---
 
