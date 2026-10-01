@@ -31,6 +31,21 @@ def html(content):
 st.markdown("""
 <style>
 
+[data-testid="stHeader"] {
+    display: none;
+}
+.block-container {
+    padding-top: 1rem !important;
+}
+
+[data-testid="stToolbar"] {
+    display: none;
+}
+
+[data-testid="stDecoration"] {
+    display: none;
+}
+
 /* =========================
    MAIN BACKGROUND
 ========================= */
