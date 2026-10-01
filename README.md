@@ -5,7 +5,7 @@
 ## 🚀 Live Demo
 
 🌐 **Live App:**  
-PASTE_YOUR_STREAMLIT_APP_LINK_HERE
+https://salary-prediction-mlgit-guuvrbo5fjrilzesxh3z6y.streamlit.app/
 
 ---
 
