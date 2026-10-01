@@ -20,10 +20,8 @@ st.set_page_config(
 # =========================================================
 
 def html(content):
-    st.markdown(
-        textwrap.dedent(content),
-        unsafe_allow_html=True
-    )
+    st.html(textwrap.dedent(content)
+           )
 
 
 # =========================================================
