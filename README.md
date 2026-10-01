@@ -95,3 +95,94 @@ The final Random Forest Regression model was evaluated on a held-out test datase
 - Random State: `42`
 
 The model achieved an R² score of approximately **0.17** on the test dataset.
+
+
+---
+
+## 🛠️ Tech Stack
+
+### Programming Language
+- Python
+
+### Data Analysis
+- Pandas
+- NumPy
+
+### Machine Learning
+- Scikit-learn
+- Random Forest Regression
+
+### Data Visualization
+- Matplotlib
+- Seaborn
+
+### Web Application
+- Streamlit
+
+### Model Deployment
+- Streamlit Community Cloud
+
+### Version Control
+- Git
+- GitHub
+
+### Model & Data Processing
+- Joblib
+- One-Hot Encoding
+- SimpleImputer
+- ColumnTransformer
+- Pipeline
+
+---
+
+## 📂 Project Structure
+
+```text
+salary-prediction-ml/
+│
+├── app.py
+├── salary_prediction_model.pkl
+├── requirements.txt
+├── runtime.txt
+└── README.md
+
+
+---
+
+## ✨ Key Features
+
+- 🤖 Machine Learning-based salary prediction
+- 🌲 Random Forest Regression model
+- 🧹 Data cleaning and preprocessing pipeline
+- 🔤 Automatic categorical feature encoding
+- 🩹 Missing-value handling using imputation
+- 🎯 Hyperparameter tuning using GridSearchCV
+- 📊 Model evaluation using MAE, RMSE and R²
+- 💻 Interactive Streamlit web application
+- ⚡ Real-time salary prediction
+- ☁️ Deployed using Streamlit Community Cloud
+
+
+---
+
+## 🚀 Future Improvements
+
+- Improve model performance with advanced ensemble models
+- Experiment with XGBoost and Gradient Boosting
+- Add more job-market features
+- Increase dataset size for better generalization
+- Add salary prediction confidence intervals
+- Add interactive data visualizations
+- Improve UI/UX of the Streamlit application
+- Add model explainability using SHAP
+
+
+---
+
+## 👨‍💻 Author
+
+**Priyanshu Kumar**
+
+B.Tech Student | Machine Learning & Data Science Enthusiast
+
+- GitHub: [@priyanshusingh07108-bot](https://github.com/priyanshusingh07108-bot)
