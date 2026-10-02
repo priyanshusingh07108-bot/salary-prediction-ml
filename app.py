@@ -1,4 +1,9 @@
-    html("""
+import streamlit as st
+import pandas as pd
+import joblib
+import textwrap
+
+html("""
     <div class="info-card">
 
         <div class="info-title">
