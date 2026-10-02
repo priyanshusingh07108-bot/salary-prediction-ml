@@ -33,7 +33,8 @@ st.markdown("""
 
 [data-testid="stHeader"] {
     background: transparent !important;
-}
+    display: block !important;
+} 
 .block-container {
     padding-top: 1rem !important;
 }
@@ -94,21 +95,6 @@ st.markdown("""
     border-right: 1px solid rgba(96,165,250,0.18);
 }
 
-/* FORCE SIDEBAR VISIBLE */
-[data-testid="stSidebar"] {
-    transform: translateX(0) !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 300px !important;
-    min-width: 300px !important;
-}
-
-[data-testid="stSidebar"][aria-expanded="false"] {
-    transform: translateX(0) !important;
-    visibility: visible !important;
-    width: 300px !important;
-    min-width: 300px !important;
-}
 
 .sidebar-brand {
     text-align: center;
