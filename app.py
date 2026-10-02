@@ -94,6 +94,22 @@ st.markdown("""
     border-right: 1px solid rgba(96,165,250,0.18);
 }
 
+/* FORCE SIDEBAR VISIBLE */
+[data-testid="stSidebar"] {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 300px !important;
+    min-width: 300px !important;
+}
+
+[data-testid="stSidebar"][aria-expanded="false"] {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    width: 300px !important;
+    min-width: 300px !important;
+}
+
 .sidebar-brand {
     text-align: center;
     padding: 10px 5px 25px 5px;
