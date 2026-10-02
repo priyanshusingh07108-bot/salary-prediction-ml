@@ -32,7 +32,7 @@ st.markdown("""
 <style>
 
 [data-testid="stHeader"] {
-    display: none;
+    background: transparent !important;
 }
 .block-container {
     padding-top: 1rem !important;
